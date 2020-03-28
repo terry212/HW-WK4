@@ -1,0 +1,10 @@
+#view-highscore {
+    height: auto;
+    float: left;
+    display: contents;
+}
+
+#time-remain {
+    height: 50px;
+    width: 100%;
+}
