@@ -19,38 +19,33 @@ var secondsLeft = 75;
 var score = 0;
 
 // Array of questions
-// var questions = [
-//     { q: "", a: "t" },
-//     { q: "There are 365 days in a year.", a: "t" },
-//     { q: "There are 42 ounces in a pound.", a: "f" },
-//     { q: "The Declaration of Independence was created in 1745.", a: "f" },
-//     { q: "Bananas are vegetables.", a: "f" }
-// ];
+var questions = [
+    { q: "What is missing in the following tag: <h1></> ?", options: ["h1", "h2", "Nothing", ";"], correctAns: "h1" },
+    { q: "What does DOM stand for?", options: ["Document Oriented Model", "DOMain", "Document Object Mapping", "Document Object Model"], correctAns: "Document Object Model" },
+    { q: "To create a link, which tag would you use?", options: ["href", "<a><a/>", "<tag></tag>", "<link></link>"], correctAns: "<a><a/>" },
+    { q: "CSS stands for what?", options: ["Cascading Simple Sheets", "Concatenate Style Sheet", "Cascading Style Sheet", "Cascading Sheet Styler"], correctAns: "Cascading Style Sheet"}
+    // { q: "", a: "f" }
+];
 
 // Declare variables that needs to be created for the top bar status.... tb means top bar, genius
 var tbPTag = document.createElement("p");
 var tbATag = document.createElement("a");
 var tbHrTag = document.createElement("hr");
 // Create h1 element for the main title
-var titleTag = document.createElement("h1");
+var titleTag = document.createElement("h2");
 //  content p tag
 var contentPTag = document.createElement("p");
 // content start button
 var contentStartBtn = document.createElement("button");
+// options buttons
+var option1 = document.createElement("button");
+var option2 = document.createElement("button");
+var option3 = document.createElement("button");
+var option4 = document.createElement("button");
 
-// Countdown timer, add event listener to invoke timer
-function setTime() {
-    var timerInterval = setInterval(function () {
-        secondsLeft--;
-        tbPTag.textContent = "Time: " + secondsLeft;
-        if (secondsLeft === 0) {
-            clearInterval(timerInterval);
-            tbPTag.textContent = "Time is up!";
-        }
-    }, 1000);
-}
 
-setTime();
+
+
 // Adding relative content
 tbATag.textContent = "View Highscores";
 titleTag.textContent = "Code Quiz Challenge";
@@ -75,7 +70,82 @@ tbPTag.setAttribute("style", "margin-right: 5%;margin-top: 3%;font-size:14pt;flo
 tbHrTag.setAttribute("style", "margin-top: 1rem; margin-bottom: 1rem; border: 0; border-bottom: 1px solid rgba(0,0,0,.1);");
 titleTag.setAttribute("style", "text-align:center;margin-top:8%;");
 contentPTag.setAttribute("style", "text-align:justify; font-size: 14pt; padding:3%; margin-top:3%;");
-contentStartBtn.setAttribute("class","btn btn-primary");
+contentStartBtn.setAttribute("class", "btn btn-primary");
+contentStartBtn.setAttribute("id", "start-button");
 contentStartBtn.setAttribute("style", "margin:auto; height:auto; width:20%; display:block;");
 
-// Create a top header area that will house the timer and the link to view highscores
+
+// Event Listner for the button
+var startBtnTag = document.querySelector("#start-button");
+
+function buttons() {
+    contentDiv.appendChild(option1);
+    option1.setAttribute("class", "btn btn-primary");
+    option1.setAttribute("id", "ans1");
+    option1.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(option2);
+    option2.setAttribute("class", "btn btn-primary");
+    option2.setAttribute("id", "ans2");
+    option2.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(option3);
+    option3.setAttribute("class", "btn btn-primary");
+    option3.setAttribute("id", "ans3");
+    option3.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(option4);
+    option4.setAttribute("class", "btn btn-primary");
+    option4.setAttribute("id", "ans4");
+    option4.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+}
+
+// for (let btn = 0; btn < questions.length; btn++) {
+//     const element = questions[btn];
+// }
+
+function showOptions() {
+    for (let i = 0; i < questions.length;) {
+        option1.textContent = questions[i].options[0];
+        option2.textContent = questions[i].options[1];
+        option3.textContent = questions[i].options[2];
+        option4.textContent = questions[i].options[3];
+
+    }
+}
+
+tbPTag.textContent = "Time: " + secondsLeft;
+
+startBtnTag.addEventListener("click", function () {
+    setTime();
+    for (let i = 0; i < questions.length; i++) {
+        titleTag.textContent = questions[i].q;
+        contentPTag.remove();
+        contentStartBtn.remove();
+        buttons();
+        showOptions();
+
+        if (questions[i].correctAns === "h1") {
+            console.log("Correct choice");
+        } else{
+            console.log("Incorrect choice");
+        }
+
+    }
+
+});
+
+
+
+// Countdown timer, add event listener to invoke timer
+function setTime() {
+    var timerInterval = setInterval(function () {
+        tbPTag.textContent = "Time: " + secondsLeft;
+        secondsLeft--;
+        if (secondsLeft === 0) {
+            clearInterval(timerInterval);
+            tbPTag.textContent = "Time is up!";
+        }
+    }, 1000);
+}
+
+
+
+
