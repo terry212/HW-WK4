@@ -15,15 +15,19 @@ var contentDiv = document.querySelector("#content-area");
 // Timer variable
 var secondsLeft = 75;
 
+function deduct() {
+    secondsLeft = secondsLeft - 10;
+    return secondsLeft;
+}
+
 // Score variable
 var score = 0;
-
 // Array of questions
 var questions = [
-    { q: "What is missing in the following tag: <h1></> ?", options: ["h1", "h2", "Nothing", ";"], correctAns: "h1" },
-    { q: "What does DOM stand for?", options: ["Document Oriented Model", "DOMain", "Document Object Mapping", "Document Object Model"], correctAns: "Document Object Model" },
-    { q: "To create a link, which tag would you use?", options: ["href", "<a><a/>", "<tag></tag>", "<link></link>"], correctAns: "<a><a/>" },
-    { q: "CSS stands for what?", options: ["Cascading Simple Sheets", "Concatenate Style Sheet", "Cascading Style Sheet", "Cascading Sheet Styler"], correctAns: "Cascading Style Sheet"}
+    { q: "What is missing in the following tag: <h1></> ?", options: ["h1", "h2", "Nothing", ";"], correctAns: "ans1" },
+    { q: "What does DOM stand for?", options: ["Document Oriented Model", "DOMain", "Document Object Mapping", "Document Object Model"], correctAns: "ans4" },
+    { q: "To create a link, which tag would you use?", options: ["href", "<a><a/>", "<tag></tag>", "<link></link>"], correctAns: "ans2" },
+    { q: "CSS stands for what?", options: ["Cascading Simple Sheets", "Concatenate Style Sheet", "Cascading Style Sheet", "Cascading Sheet Styler"], correctAns: "ans3" }
     // { q: "", a: "f" }
 ];
 
@@ -38,13 +42,10 @@ var contentPTag = document.createElement("p");
 // content start button
 var contentStartBtn = document.createElement("button");
 // options buttons
+var option0 = document.createElement("button");
 var option1 = document.createElement("button");
 var option2 = document.createElement("button");
 var option3 = document.createElement("button");
-var option4 = document.createElement("button");
-
-
-
 
 // Adding relative content
 tbATag.textContent = "View Highscores";
@@ -62,7 +63,6 @@ titleDiv.appendChild(titleTag);
 contentDiv.appendChild(contentPTag);
 contentDiv.appendChild(contentStartBtn);
 
-
 // Style elements
 tbATag.setAttribute("href", "#");
 tbATag.setAttribute("style", "margin-left: 5%;margin-top: 3%;font-size:14pt;float: left; height:auto;");
@@ -74,65 +74,8 @@ contentStartBtn.setAttribute("class", "btn btn-primary");
 contentStartBtn.setAttribute("id", "start-button");
 contentStartBtn.setAttribute("style", "margin:auto; height:auto; width:20%; display:block;");
 
-
-// Event Listner for the button
-var startBtnTag = document.querySelector("#start-button");
-
-function buttons() {
-    contentDiv.appendChild(option1);
-    option1.setAttribute("class", "btn btn-primary");
-    option1.setAttribute("id", "ans1");
-    option1.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-    contentDiv.appendChild(option2);
-    option2.setAttribute("class", "btn btn-primary");
-    option2.setAttribute("id", "ans2");
-    option2.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-    contentDiv.appendChild(option3);
-    option3.setAttribute("class", "btn btn-primary");
-    option3.setAttribute("id", "ans3");
-    option3.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-    contentDiv.appendChild(option4);
-    option4.setAttribute("class", "btn btn-primary");
-    option4.setAttribute("id", "ans4");
-    option4.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-}
-
-// for (let btn = 0; btn < questions.length; btn++) {
-//     const element = questions[btn];
-// }
-
-function showOptions() {
-    for (let i = 0; i < questions.length;) {
-        option1.textContent = questions[i].options[0];
-        option2.textContent = questions[i].options[1];
-        option3.textContent = questions[i].options[2];
-        option4.textContent = questions[i].options[3];
-
-    }
-}
-
+// Display on title bar
 tbPTag.textContent = "Time: " + secondsLeft;
-
-startBtnTag.addEventListener("click", function () {
-    setTime();
-    for (let i = 0; i < questions.length; i++) {
-        titleTag.textContent = questions[i].q;
-        contentPTag.remove();
-        contentStartBtn.remove();
-        buttons();
-        showOptions();
-
-        if (questions[i].correctAns === "h1") {
-            console.log("Correct choice");
-        } else{
-            console.log("Incorrect choice");
-        }
-
-    }
-
-});
-
-
 
 // Countdown timer, add event listener to invoke timer
 function setTime() {
@@ -145,7 +88,75 @@ function setTime() {
         }
     }, 1000);
 }
+// Event Listner for the button
+var startBtnTag = document.querySelector("#start-button");
+var qIndex = 0;
 
+startBtnTag.addEventListener("click", function () {
+    // Start timer when quiz starts
+    setTime();
+    // remove old data
+    contentPTag.remove();
+    // remove start button
+    contentStartBtn.remove();
+    myQuiz();
+});
 
+function myQuiz() {
+    // Change title to show the question
+    titleTag.textContent = questions[qIndex].q;
+    // append the buttons       
+    buttons();
+    // append choices to the 
+    option0.textContent = questions[qIndex].options[0];
+    option1.textContent = questions[qIndex].options[1];
+    option2.textContent = questions[qIndex].options[2];
+    option3.textContent = questions[qIndex].options[3];
+    userInput();
 
+}
+
+function buttons() {
+    contentDiv.appendChild(option0);
+    option0.setAttribute("class", "btn btn-primary");
+    option0.setAttribute("id", "ans1");
+    option0.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(option1);
+    option1.setAttribute("class", "btn btn-primary");
+    option1.setAttribute("id", "ans2");
+    option1.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(option2);
+    option2.setAttribute("class", "btn btn-primary");
+    option2.setAttribute("id", "ans3");
+    option2.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(option3);
+    option3.setAttribute("class", "btn btn-primary");
+    option3.setAttribute("id", "ans4");
+    option3.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+}
+
+function userInput() {
+    var userChoice1 = document.getElementById("ans1");
+    var userChoice2 = document.getElementById("ans2");
+    var userChoice3 = document.getElementById("ans3");
+    var userChoice4 = document.getElementById("ans4");
+
+    var userChoice = [userChoice1, userChoice2, userChoice3, userChoice4];
+
+    var correctChoice = document.getElementById(questions[qIndex].correctAns);
+    for (let i = 0; i < questions.length; i++) {
+        userChoice[i].addEventListener("click", function () {
+            if ((userChoice1 == correctChoice) && (userChoice2 == correctChoice) && (userChoice3 == correctChoice) && (userChoice4 == correctChoice)) {
+                qIndex++;
+                score += 10;
+                myQuiz();
+            } else {
+                deduct();
+                qIndex++;
+                myQuiz();
+            }
+        });
+    }
+    // contentDiv.children[0].id
+}
 
