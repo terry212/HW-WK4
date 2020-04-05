@@ -13,11 +13,11 @@ var contentDiv = document.querySelector("#content-area");
 // var bodyMain = document.querySelector("main");
 
 // Timer variable
-var secondsLeft = 75;
+var secondsLeft = 60;
 
 function deduct() {
-    secondsLeft = secondsLeft - 10;
-    return secondsLeft;
+    secondsLeft -= 10;
+    // return secondsLeft;
 }
 
 // Score variable
@@ -28,7 +28,6 @@ var questions = [
     { q: "What does DOM stand for?", options: ["Document Oriented Model", "DOMain", "Document Object Mapping", "Document Object Model"], correctAns: "ans4" },
     { q: "To create a link, which tag would you use?", options: ["href", "<a><a/>", "<tag></tag>", "<link></link>"], correctAns: "ans2" },
     { q: "CSS stands for what?", options: ["Cascading Simple Sheets", "Concatenate Style Sheet", "Cascading Style Sheet", "Cascading Sheet Styler"], correctAns: "ans3" }
-    // { q: "", a: "f" }
 ];
 
 // Declare variables that needs to be created for the top bar status.... tb means top bar, genius
@@ -42,10 +41,10 @@ var contentPTag = document.createElement("p");
 // content start button
 var contentStartBtn = document.createElement("button");
 // options buttons
-var option0 = document.createElement("button");
-var option1 = document.createElement("button");
-var option2 = document.createElement("button");
-var option3 = document.createElement("button");
+var optionA = document.createElement("button");
+var optionB = document.createElement("button");
+var optionC = document.createElement("button");
+var optionD = document.createElement("button");
 
 // Adding relative content
 tbATag.textContent = "View Highscores";
@@ -82,9 +81,11 @@ function setTime() {
     var timerInterval = setInterval(function () {
         tbPTag.textContent = "Time: " + secondsLeft;
         secondsLeft--;
-        if (secondsLeft === 0) {
+        if ((secondsLeft <= 0) && (qIndex >= questions.length)) {
             clearInterval(timerInterval);
             tbPTag.textContent = "Time is up!";
+            titleTag.remove();
+            contentDiv.remove();
         }
     }, 1000);
 }
@@ -103,52 +104,51 @@ startBtnTag.addEventListener("click", function () {
 });
 
 function myQuiz() {
-    // Change title to show the question
-    titleTag.textContent = questions[qIndex].q;
-    // append the buttons       
-    buttons();
-    // append choices to the 
-    option0.textContent = questions[qIndex].options[0];
-    option1.textContent = questions[qIndex].options[1];
-    option2.textContent = questions[qIndex].options[2];
-    option3.textContent = questions[qIndex].options[3];
-    userInput();
-
+        // Change title to show the question
+        titleTag.textContent = questions[qIndex].q;
+        // append the buttons       
+        buttons();
+        // append choices to the 
+        optionA.textContent = questions[qIndex].options[0];
+        optionB.textContent = questions[qIndex].options[1];
+        optionC.textContent = questions[qIndex].options[2];
+        optionD.textContent = questions[qIndex].options[3];
+        userInput();
 }
 
 function buttons() {
-    contentDiv.appendChild(option0);
-    option0.setAttribute("class", "btn btn-primary");
-    option0.setAttribute("id", "ans1");
-    option0.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-    contentDiv.appendChild(option1);
-    option1.setAttribute("class", "btn btn-primary");
-    option1.setAttribute("id", "ans2");
-    option1.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-    contentDiv.appendChild(option2);
-    option2.setAttribute("class", "btn btn-primary");
-    option2.setAttribute("id", "ans3");
-    option2.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
-    contentDiv.appendChild(option3);
-    option3.setAttribute("class", "btn btn-primary");
-    option3.setAttribute("id", "ans4");
-    option3.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(optionA);
+    optionA.setAttribute("class", "btn btn-primary");
+    optionA.setAttribute("id", "ans1");
+    optionA.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(optionB);
+    optionB.setAttribute("class", "btn btn-primary");
+    optionB.setAttribute("id", "ans2");
+    optionB.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(optionC);
+    optionC.setAttribute("class", "btn btn-primary");
+    optionC.setAttribute("id", "ans3");
+    optionC.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
+    contentDiv.appendChild(optionD);
+    optionD.setAttribute("class", "btn btn-primary");
+    optionD.setAttribute("id", "ans4");
+    optionD.setAttribute("style", "margin:auto; height:auto; width:50%; display:block; margin-bottom: 10px !important; padding: 15px;");
 }
 
 function userInput() {
-    var userChoice1 = document.getElementById("ans1");
-    var userChoice2 = document.getElementById("ans2");
-    var userChoice3 = document.getElementById("ans3");
-    var userChoice4 = document.getElementById("ans4");
+    var userChoiceA = document.getElementById("ans1");
+    var userChoiceB = document.getElementById("ans2");
+    var userChoiceC = document.getElementById("ans3");
+    var userChoiceD = document.getElementById("ans4");
 
-    var userChoice = [userChoice1, userChoice2, userChoice3, userChoice4];
-
+    var userChoice = [userChoiceA, userChoiceB, userChoiceC, userChoiceD];
     var correctChoice = document.getElementById(questions[qIndex].correctAns);
-    for (let i = 0; i < questions.length; i++) {
+
+    for (let i = 0; i < (questions.length); i++) {
         userChoice[i].addEventListener("click", function () {
-            if ((userChoice1 == correctChoice) && (userChoice2 == correctChoice) && (userChoice3 == correctChoice) && (userChoice4 == correctChoice)) {
-                qIndex++;
+            if ((userChoice[i] === correctChoice)) {
                 score += 10;
+                qIndex++;
                 myQuiz();
             } else {
                 deduct();
@@ -157,6 +157,5 @@ function userInput() {
             }
         });
     }
-    // contentDiv.children[0].id
 }
 
