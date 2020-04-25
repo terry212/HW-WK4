@@ -101,11 +101,13 @@ startBtnTag.addEventListener("click", function () {
     // remove start button
     contentStartBtn.remove();
     myQuiz();
+    userInput();
 });
 
 function myQuiz() {
         // Change title to show the question
         titleTag.textContent = questions[qIndex].q;
+        console.log(qIndex);
         // append the buttons       
         buttons();
         // append choices to the 
@@ -113,7 +115,7 @@ function myQuiz() {
         optionB.textContent = questions[qIndex].options[1];
         optionC.textContent = questions[qIndex].options[2];
         optionD.textContent = questions[qIndex].options[3];
-        userInput();
+       
 }
 
 function buttons() {
