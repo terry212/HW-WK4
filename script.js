@@ -84,6 +84,7 @@ function setTime() {
         if (secondsLeft <= 0) {
             clearInterval(timerInterval);
             tbPTag.textContent = "Time is up!";
+            endGame();
         }
     }, 1000);
 }
@@ -151,21 +152,45 @@ function userInput() {
     var userChoiceC = document.getElementById("ans3");
     var userChoiceD = document.getElementById("ans4");
 
-    var userChoice = [userChoiceA, userChoiceB, userChoiceC, userChoiceD];
-    var correctChoice = document.getElementById(questions[qIndex].correctAns);
+    userChoiceA.addEventListener("click", function () {
+        var correctChoice = document.getElementById(questions[qIndex].correctAns).id;
+        if (userChoiceA.id == correctChoice) {
+            score += 10;
+            myQuiz();
+        } else {
+            deduct();
+            myQuiz();
+        }
+    });
+    userChoiceB.addEventListener("click", function () {
+        var correctChoice = document.getElementById(questions[qIndex].correctAns).id;
+        if (userChoiceB.id === correctChoice) {
+            score += 10;
+            myQuiz();
+        } else {
+            deduct();
+            myQuiz();
+        }
+    });
+    userChoiceC.addEventListener("click", function () {
+        var correctChoice = document.getElementById(questions[qIndex].correctAns).id;
+        if (userChoiceC.id === correctChoice) {
+            score += 10;
+            myQuiz();
+        } else {
+            deduct();
+            myQuiz();
+        }
+    });
+    userChoiceD.addEventListener("click", function () {
+        var correctChoice = document.getElementById(questions[qIndex].correctAns).id;
+        if (userChoiceD.id === correctChoice) {
+            score += 10;
+            myQuiz();
+        } else {
+            deduct();
+            myQuiz();
+        }
+    });
 
-    for (let i = 0; i < (questions.length); i++) {
-        userChoice[i].addEventListener("click", function () {
-            if ((userChoice[i] === correctChoice)) {
-                score += 10;
-                // qIndex++;
-                myQuiz();
-            } else {
-                deduct();
-                // qIndex++;
-                myQuiz();
-            }
-        });
-    }
 }
-
