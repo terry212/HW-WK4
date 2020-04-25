@@ -81,17 +81,15 @@ function setTime() {
     var timerInterval = setInterval(function () {
         tbPTag.textContent = "Time: " + secondsLeft;
         secondsLeft--;
-        if ((secondsLeft <= 0) && (qIndex >= questions.length)) {
+        if (secondsLeft <= 0) {
             clearInterval(timerInterval);
             tbPTag.textContent = "Time is up!";
-            titleTag.remove();
-            contentDiv.remove();
         }
     }, 1000);
 }
 // Event Listner for the button
 var startBtnTag = document.querySelector("#start-button");
-var qIndex = 0;
+var qIndex = -1;
 
 startBtnTag.addEventListener("click", function () {
     // Start timer when quiz starts
@@ -105,17 +103,27 @@ startBtnTag.addEventListener("click", function () {
 });
 
 function myQuiz() {
-        // Change title to show the question
-        titleTag.textContent = questions[qIndex].q;
-        console.log(qIndex);
-        // append the buttons       
-        buttons();
-        // append choices to the 
-        optionA.textContent = questions[qIndex].options[0];
-        optionB.textContent = questions[qIndex].options[1];
-        optionC.textContent = questions[qIndex].options[2];
-        optionD.textContent = questions[qIndex].options[3];
-       
+    if (qIndex >= 3) {
+        endGame();
+    } else {
+        qIndex++;
+    }
+    // Change title to show the question
+    titleTag.textContent = questions[qIndex].q;
+    // append the buttons       
+    buttons();
+    // append choices to the 
+    optionA.textContent = questions[qIndex].options[0];
+    optionB.textContent = questions[qIndex].options[1];
+    optionC.textContent = questions[qIndex].options[2];
+    optionD.textContent = questions[qIndex].options[3];
+
+}
+
+function endGame() {
+    secondsLeft = 0;
+    titleTag.remove();
+    contentDiv.remove();
 }
 
 function buttons() {
@@ -150,11 +158,11 @@ function userInput() {
         userChoice[i].addEventListener("click", function () {
             if ((userChoice[i] === correctChoice)) {
                 score += 10;
-                qIndex++;
+                // qIndex++;
                 myQuiz();
             } else {
                 deduct();
-                qIndex++;
+                // qIndex++;
                 myQuiz();
             }
         });
