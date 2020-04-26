@@ -123,10 +123,11 @@ function myQuiz() {
 // function for when all questions are answered
 function endGame() {
     secondsLeft = 0;
-    titleTag.remove();
-    contentDiv.remove();
     resultPTag.remove();
+    titleDiv.firstChild.textContent = "Highscores";
 
+    contentDiv.textContent = "Your score is: " + score;
+    contentDiv.setAttribute("style", "margin:auto; font-size:14pt; text-align: center; height:auto;");
 };
 // function to append the buttons with attributes
 function buttons() {
